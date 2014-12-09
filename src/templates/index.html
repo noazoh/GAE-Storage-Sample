@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+
+<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+Remove this if you use the .htaccess -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>PlumPlan Sandbox</title>
+<meta name="description" content="">
+<meta name="author" content="project6">
+
+<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- twitter bootstrap CSS -->
+<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<!-- my custom style CSS -->
+</head>
+
+<body>
+<div class="container">
+<header>
+<h2>メニュー</h2>
+</header>
+<div class="jumbotron">
+	<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data" id="frmDownload">
+		<div class="form-group">
+			<label for="inputFilePath">File：</label>
+			<input type="file" class="form-control" id="inputFilePath" /></div>
+			<p class="help-block">help message here...</p>
+		<button type="button" class="btn btn-primary" id="btnUpload">upload</button>
+	</form>
+	<button type="button" class="btn btn-primary" id="btnDownload">download</button>
+</div><!-- div.jumbotron -->
+<div class="row">
+	<div class="col-sm-12">
+	<div class="alert alert-danger" role="alert" id="divResult">結果</div>
+	</div>
+</div><!-- div.row -->
+</div>
+
+<!-- twitter bootstrap javascript -->
+<script type="text/javascript" src="//code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script>
+var gJqxHandler = null;	//ajax重複送信チェック用
+
+/*
+ * イベントハンドラ
+ * downloadボタンクリック時
+ * 
+ */
+$("#btnDownload").click(function() {
+	$("#frmDownload").submit();
+});
+/*
+$("#btnExec").click(function() {
+	// 重複送信を防ぐ
+	if (gJqxHandler != null) { console.debug("重複"); return; }
+
+	// 入力チェック
+	var isValid = inputCheck();
+	if (isValid) {
+		// ajaxリクエスト送信
+		gJqxHandler = $.ajax({
+			type: "POST",
+			url: "/download",
+			dataType: "json",
+			cache: false,
+		})
+		.done(function(data) {
+	        // 通信が成功したときの処理
+			console.log(data);
+			$("#divResult").html(data);		
+	    })
+	    .fail(function(data) {
+	        // 通信が失敗したときの処理
+			$("#divResult").html("<p>検索結果取得失敗</p><p>" + data + "</p>");
+	    })
+	    .always(function(data) {
+	        // 通信が完了したとき        
+		    // 重複送信制御クリア
+		    gJqxHandler = null;
+	    });   
+	}
+});	
+*/
+</script>
+</body>
+</html>
