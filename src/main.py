@@ -25,10 +25,12 @@ HANDLERSPATH = 'src.handlers.'
 
 
 routes = [
-          webapp2.Route('/', handler=HANDLERSPATH + 'handler.MainHandler'),
-          webapp2.Route('/upload', handler=HANDLERSPATH + 'handler.UploadHandler'),
-          webapp2.Route('/serve/<blob_key>', handler=HANDLERSPATH + 'handler.ServeHandler'),
-          webapp2.Route('/download', handler=HANDLERSPATH + 'handler.DownloadHandler'),
+#          webapp2.Route('/', handler=HANDLERSPATH + 'handler.MainHandler'),
+#          webapp2.Route('/upload', handler=HANDLERSPATH + 'handler.UploadHandler'),
+#          webapp2.Route('/serve/<blob_key>', handler=HANDLERSPATH + 'handler.ServeHandler'),
+#          webapp2.Route('/download', handler=HANDLERSPATH + 'handler.DownloadHandler'),
+          
+          webapp2.Route('/', handler=HANDLERSPATH + 'sample_handler.MainHandler'),
           ]
 
 app = webapp2.WSGIApplication(routes, debug=True)

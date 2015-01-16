@@ -17,19 +17,17 @@ class MainHandler(webapp2.RequestHandler):
         super(MainHandler, self).__init__(*args, **kwargs)
 
     def get(self, *args, **kwargs):
-        logging.debug("debug-----")
-        logging.info("info------")
-        logging.warning("warning---")
-        logging.error("error-----")
-        logging.critical("critical--")
-        
         logging.debug("query_string=" + self.request.query_string)
         logging.debug(kwargs)
         logging.debug(args)
+        
+        #default bucket name
+        from google.appengine.api import app_identity
+        logging.debug("default bucket name=" + app_identity.get_default_gcs_bucket_name())
 
         #upload用URLを生成
         #アップロードが完了したら/uploadに遷移する
-        upload_url = blobstore.create_upload_url('/upload')
+        upload_url = blobstore.create_upload_url('/upload', gs_bucket_name='noazoh-sandbox.appspot.com')
         logging.debug("upload_url=" + upload_url)
 
         # 現在 Blobstore に保存されているファイルたちを取得
@@ -45,17 +43,25 @@ class MainHandler(webapp2.RequestHandler):
 
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
-    def post(self):
+    def post(self, *args, **kwargs):        
+        logging.debug("query_string=" + self.request.query_string)
+        logging.debug(kwargs)
+        logging.debug(args)
+
         # Blobstore にアップロードされたファイルの情報を取得
         files = self.get_uploads('file')
-        blob_info = files[0]
-        
+        if files:
+            logging.debug("upload files:" + files)
+        else:
+            logging.debug(u"アップロードファイル情報なし")
+
         # ファイル表示用の URL へリダイレクト
-        self.redirect('/serve/%s' % blob_info.key())
+        # self.redirect('/serve/%s' % blob_info.key())
 
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, blob_key):
+        logging.debug("blob_key:" + blob_key)
         blob_key = str(urllib.unquote(blob_key)) 
 
         # BlobKeyを指定してファイルを取得

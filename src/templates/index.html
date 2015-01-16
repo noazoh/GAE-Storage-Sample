@@ -7,11 +7,11 @@
 Remove this if you use the .htaccess -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-<title>PlumPlan Sandbox</title>
+<title>Storage Test</title>
 <meta name="description" content="">
 <meta name="author" content="project6">
 
-<meta name="viewport" content="width=device-width; initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 <link rel="shortcut icon" href="/favicon.ico">
@@ -31,15 +31,26 @@ Remove this if you use the .htaccess -->
 <header>
 <h2>メニュー</h2>
 </header>
+
 <div class="jumbotron">
-	<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data" id="frmDownload">
+	<form id="frmUpload" enctype="multipart/form-data" method="POST" action="{{ upload_url }}">
+		<input type="file" id="inputFilePath" />
+		<button type="button" class="btn btn-primary" id="btnUpload">upload</button>
+	</form>
+
+	<!--
+	<form id="frmUpload" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="inputFilePath">File：</label>
 			<input type="file" class="form-control" id="inputFilePath" /></div>
 			<p class="help-block">help message here...</p>
+			<input id="uploadUrl" type="hidden" value="{{ upload_url }}" />
 		<button type="button" class="btn btn-primary" id="btnUpload">upload</button>
 	</form>
-	<button type="button" class="btn btn-primary" id="btnDownload">download</button>
+	-->
+	<form action="" method="GET" enctype="multipart/form-data" id="frmDownload">
+		<button type="button" class="btn btn-primary" id="btnDownload">download</button>
+	</form>
 </div><!-- div.jumbotron -->
 <div class="row">
 	<div class="col-sm-12">
@@ -56,10 +67,57 @@ var gJqxHandler = null;	//ajax重複送信チェック用
 
 /*
  * イベントハンドラ
+ * uploadボタンクリック時
+ * 
+ */
+$("#btnUpload").click(function() {
+	var $form = $("#frmUpload");
+	console.debug($form);
+
+	alert("アップロードします");
+	$("#frmUpload").submit();
+
+/*
+	var $form = $("#frmUpload");
+	var $input = $("#inputFilePath");
+	console.debug($form);
+	//console.debug($input);
+	var formData = new FormData($form[0]);
+	console.debug(formData);
+
+	// ajaxリクエスト送信
+	gJqxHandler = $.ajax({
+		type : "POST",
+		url : $("#uploadUrl").val(),
+		processData : false,
+		contentType : false,
+		data : formData	
+	})
+	.done(function(data) {
+        // 通信が成功したときの処理
+		$("#divResult").html(data);		
+    })
+    .fail(function(data) {
+        // 通信が失敗したときの処理
+		$("#divResult").html("<p>失敗</p><p>" + data + "</p>");
+    })
+    .always(function(data) {
+        // 通信が完了したとき        
+		console.log(data);
+	    // 重複送信制御クリア
+	    gJqxHandler = null;
+    });   
+*/
+    
+});
+
+/*
+ * イベントハンドラ
  * downloadボタンクリック時
  * 
  */
 $("#btnDownload").click(function() {
+	alert("ダウンロードします");
 	$("#frmDownload").submit();
 });
 /*
